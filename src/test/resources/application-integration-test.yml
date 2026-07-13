@@ -1,0 +1,26 @@
+spring:
+  liquibase:
+    default-schema: public
+    enabled: true
+
+  jpa:
+    database: postgresql
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: public
+        format_sql: true
+
+security:
+  jwt:
+    secret: Fi2tUvoxR4kxIpCen7qxpWJ1HO8Cqz6M8B9u4NRvazOOxw7zS7Fl6lKs9r5Iz
+    expiration: PT1H
+
+logging:
+  level:
+    com.example.project_backend: debug
+
+test:
+  auth:
+    username: john_doe
+    password: admin
