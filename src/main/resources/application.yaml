@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: project_backend
+  datasource:
+    url: jdbc:postgresql://${POSTGRESQL_DB_HOST}:5432/${POSTGRESQL_DB}?currentSchema=${POSTGRESQL_DB_SCHEMA}
+    username: ${POSTGRESQL_USERNAME}
+    password: ${POSTGRESQL_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    change-log: classpath:liquibase/changesets/db.changelog-master.yaml
+    default-schema: public
+    enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: ${POSTGRESQL_DB_SCHEMA}
+
+server:
+  port: 8080
+
+threads:
+  virtual:
+    enabled: true
+
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: ${JWT_EXPIRATION}
+
+
+springdoc:
+  override-with-generic-response: false
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.springframework.web: DEBUG
+

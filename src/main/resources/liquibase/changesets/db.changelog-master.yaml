@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/changesets/V1_create_schema.sql
+  - include:
+      file: liquibase/changesets/V2_create_tables.sql
+  - include:
+      file: liquibase/changesets/V3_insert_data.sql
+
