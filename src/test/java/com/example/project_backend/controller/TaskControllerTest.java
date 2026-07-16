@@ -224,7 +224,7 @@ class TaskControllerTest {
     @SneakyThrows
     @Test
     @DisplayName("Reject delete the task with bad id")
-    void tesDeleteByBadId() {
+    void testDeleteByBadId() {
         final UUID badId = DataGenerate.getAnyId();
 
         final var url = String.format(URL_WITHOUT_SECURE, badId);
@@ -237,6 +237,32 @@ class TaskControllerTest {
                         status().isNotFound(),
                         content().contentType(MediaType.APPLICATION_PROBLEM_JSON),
                         jsonPath("$.status", is(HttpStatus.NOT_FOUND.value())),
+                        jsonPath("$.type", not(blankOrNullString())),
+                        jsonPath("$.title", not(blankOrNullString())),
+                        jsonPath("$.detail", not(blankOrNullString())),
+                        jsonPath("$.instance", is(url))
+                );
+    }
+
+    @SneakyThrows
+    @Test
+    @DisplayName("Reject update the task")
+    void testTaskUpdate_BadRequest() {
+        final Task oldTask = dataGenerate.saveTask();
+        final TaskDto taskDto = dataGenerate.getTaskDto();
+        taskDto.setTitle(null);
+
+        final var url = String.format(URL_WITHOUT_SECURE, oldTask.getId());
+
+        mockMvc.perform(put(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(taskDto)))
+                .andDo(print())
+                .andExpectAll(
+                        status().isBadRequest(),
+                        content().contentType(MediaType.APPLICATION_PROBLEM_JSON),
+                        jsonPath("$.status", is(HttpStatus.BAD_REQUEST.value())),
                         jsonPath("$.type", not(blankOrNullString())),
                         jsonPath("$.title", not(blankOrNullString())),
                         jsonPath("$.detail", not(blankOrNullString())),

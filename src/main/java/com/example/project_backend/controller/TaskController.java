@@ -81,7 +81,7 @@ public class TaskController implements TaskApi {
     }
 
     @PutMapping("/without-secure/{id}")
-    public ResponseEntity<TaskDto> createTask_test(@NonNull @PathVariable final UUID id,
+    public ResponseEntity<TaskDto> updateTask_test(@NonNull @PathVariable final UUID id,
                                                    @Valid @RequestBody final TaskDto taskDto) {
         return update(id, taskDto);
     }
